@@ -1,12 +1,43 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Ionic Blank
+      Lap Timer
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs">docs</a> will be your guide.</p>
+      
+        <ion-grid>
+         
+          <ion-row >
+            <ion-col size="2">Pos</ion-col>
+            <ion-col size="2">Tran</ion-col>
+            <ion-col size="2">Total</ion-col>
+            <ion-col size="2">Lap</ion-col>
+            <ion-col size="2">Best</ion-col>
+            <ion-col size="2">Last</ion-col>            
+          </ion-row>
+
+          <ion-row *ngFor="let a of race.results | async; let i = index">
+            <ion-col size="2">{{i+1}}</ion-col>
+            <ion-col size="2">#{{a.transponder}}</ion-col>
+            <ion-col size="2">{{a.total}}</ion-col>
+            <ion-col size="2">{{a.laps}}</ion-col>
+            <ion-col size="2">{{a.best}}</ion-col>
+            <ion-col size="2">{{a.last}}</ion-col>            
+          </ion-row>
+
+        </ion-grid>
+    
+        <ion-button text-center  (click)="new()">New Race</ion-button>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button size="small" (click)="pass(1)">Pass 1</ion-button>
+    <ion-button size="small" (click)="pass(2)">Pass 2</ion-button>
+    <ion-button size="small" (click)="pass(3)">Pass 3</ion-button>
+    <ion-button size="small" (click)="pass(4)">Pass 4</ion-button>
+  </ion-toolbar>
+</ion-footer>

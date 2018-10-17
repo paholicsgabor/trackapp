@@ -1,10 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Race } from '../race';
 
 @Component({
-  selector: 'app-home',
+  selector: 'home-page',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit{
+
+  ngOnInit() {
+    
+  }
+race = new Race();
+
+pass(tran:string) {
+  this.race.passing(tran, new Date());
+}
 
 }
