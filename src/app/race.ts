@@ -1,22 +1,30 @@
 import { Result } from './result'
 import { Racemode } from './racemode.enum';
 
-import { BehaviorSubject } from 'rxjs';
-
 /**
  * Race results data and calculation
  */
 export class Race {
 
     /**
-     * Stores race mode: Race or Qualify
+     * Race mode: It can be Race or Qualify
+     * Qualify: best lap wins
+     * Race: most lap wins, with less total time
      */
-    public mode = Racemode.Qualify;
+    public mode: Racemode = Racemode.Qualify;
+    
+    /**Race start time. 
+     * The time of the first passing, or null if there are no passings.
+     */
+    public get start():Date {
+        return this.firstpass();
+    };
+
 
     /**
-    * Stores race results
+    * Race results, sorted based on race mode
     */
-    public results = new BehaviorSubject(new Array<Result>());
+    public results = new Array<Result>();
 
     /**
      * Adds new passing to the race and updates the race results
@@ -125,7 +133,7 @@ export class Race {
             })
 
         }
-        this.results.next(results);
+        this.results = results;
     }
 
     private static ms2str(ms) {

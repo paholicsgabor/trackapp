@@ -1,36 +1,37 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
-      Lap Timer
-    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="solid" (click)="newRace()">New Race</ion-button>
+    </ion-buttons>
+    <ion-title>Lap Timer - {{mode}} - {{elapsed}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-      
-        <ion-grid>
-         
-          <ion-row >
-            <ion-col size="2">Pos</ion-col>
-            <ion-col size="2">Tran</ion-col>
-            <ion-col size="2">Total</ion-col>
-            <ion-col size="2">Lap</ion-col>
-            <ion-col size="2">Best</ion-col>
-            <ion-col size="2">Last</ion-col>            
-          </ion-row>
 
-          <ion-row *ngFor="let a of race.results | async; let i = index">
-            <ion-col size="2">{{i+1}}</ion-col>
-            <ion-col size="2">#{{a.transponder}}</ion-col>
-            <ion-col size="2">{{a.total}}</ion-col>
-            <ion-col size="2">{{a.laps}}</ion-col>
-            <ion-col size="2">{{a.best}}</ion-col>
-            <ion-col size="2">{{a.last}}</ion-col>            
-          </ion-row>
+  <ion-grid>
 
-        </ion-grid>
-    
-        <ion-button text-center  (click)="new()">New Race</ion-button>
+    <ion-row>
+      <ion-col size="1">#</ion-col>
+      <ion-col size="2">Tran</ion-col>
+      <ion-col size="3">Total</ion-col>
+      <ion-col size="2">Lap</ion-col>
+      <ion-col size="2">Best</ion-col>
+      <ion-col size="2">Last</ion-col>
+    </ion-row>
+
+    <ion-row *ngFor="let a of race.results; let i = index">
+      <ion-col size="1">{{i+1}}</ion-col>
+      <ion-col size="2">#{{a.transponder}}</ion-col>
+      <ion-col size="3">{{a.total}}</ion-col>
+      <ion-col size="2">{{a.laps}}</ion-col>
+      <ion-col size="2">{{a.best}}</ion-col>
+      <ion-col size="2">{{a.last}}</ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+
 </ion-content>
 
 <ion-footer>

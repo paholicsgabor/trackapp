@@ -18,7 +18,7 @@ describe('Race', () => {
   });
 
   it('should store results', () => {
-    expect(race.results instanceof Observable).toBeTruthy();
+    expect(race.results instanceof Array).toBeTruthy();
   });
 
   it('should store race mode', () => {
@@ -29,6 +29,17 @@ describe('Race', () => {
     let racemode = race.mode;
     race.togglemode();
     expect(race.mode).not.toBe(racemode);
+  });
+  
+  it('should store the start of race', ()=> {
+    expect(race.start).toBeDefined();
+  });  
+
+  it('should update start of race on transponder passing', () => {
+    let transponder = '1';
+    let time = new Date(2018, 10, 15, 11, 34, 0, 0);
+    race.passing(transponder, time);
+    expect(race.start).toBe(time);
   });
 
   it('should update results on first passing', () => {
@@ -42,9 +53,7 @@ describe('Race', () => {
       best: "",
       last: ""
     }];
-    race.results.subscribe(res=>expect(res).toEqual(results));
-    
-
+    expect(race.results).toEqual(results);  
   });
 
   it('should update results on second passing', () => {
@@ -60,7 +69,7 @@ describe('Race', () => {
       best: "12.535",
       last: "12.535"
     }];
-    race.results.subscribe(res=>expect(res).toEqual(results));
+    expect(race.results).toEqual(results); 
   })
 
   it('should update results on different transponder passing', () => {
@@ -85,7 +94,7 @@ describe('Race', () => {
       best: "12.535",
       last: "12.535"
     }];
-    race.results.subscribe(res=>expect(res).toEqual(results));
+    expect(race.results).toEqual(results); 
   });
 
   it('should update results on toggle mode', () => {
@@ -112,7 +121,7 @@ describe('Race', () => {
       best: "12.135",
       last: "12.135"
     }];
-    race.results.subscribe(res=>expect(res).toEqual(results));
+    expect(race.results).toEqual(results); 
   });
 
 
