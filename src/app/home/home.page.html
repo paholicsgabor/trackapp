@@ -3,7 +3,7 @@
     <ion-buttons slot="end">
       <ion-button fill="solid" (click)="newRace()">New Race</ion-button>
     </ion-buttons>
-    <ion-title>Lap Timer - {{mode}} - {{elapsed}}</ion-title>
+    <ion-title>Lap Timer - {{race.mode | async}} - {{elapsed}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -20,7 +20,7 @@
       <ion-col size="2">Last</ion-col>
     </ion-row>
 
-    <ion-row *ngFor="let a of race.results; let i = index">
+    <ion-row *ngFor="let a of race.results | async; let i = index">
       <ion-col size="1">{{i+1}}</ion-col>
       <ion-col size="2">#{{a.transponder}}</ion-col>
       <ion-col size="3">{{a.total}}</ion-col>

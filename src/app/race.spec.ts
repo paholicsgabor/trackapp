@@ -1,12 +1,14 @@
 import { Race } from './race';
-import { Racemode } from './racemode.enum';
 import { Observable } from 'rxjs';
+import { LocalRace } from './localrace';
+
+
 
 describe('Race', () => {
 
   let race: Race;
   beforeEach(() => {
-    race = new Race();
+    race = new LocalRace();
   })
 
   it('should create an instance', () => {
@@ -18,28 +20,30 @@ describe('Race', () => {
   });
 
   it('should store results', () => {
-    expect(race.results instanceof Array).toBeTruthy();
+    expect(race.results instanceof Observable).toBeTruthy();
   });
 
   it('should store race mode', () => {
-    expect(race.mode).toBeDefined();
+    expect(race.mode instanceof Observable).toBeTruthy();
   });
 
   it('should toggle race mode', () => {
-    let racemode = race.mode;
-    race.togglemode();
-    expect(race.mode).not.toBe(racemode);
+    let racemode:string;
+    race.mode.subscribe(res=>racemode=res);
+    let racemode2 = racemode;
+    race.togglemode();    
+    expect(racemode).not.toBe(racemode2);
   });
   
   it('should store the start of race', ()=> {
-    expect(race.start).toBeDefined();
+    expect(race.start instanceof Observable).toBeTruthy();
   });  
 
   it('should update start of race on transponder passing', () => {
     let transponder = '1';
     let time = new Date(2018, 10, 15, 11, 34, 0, 0);
     race.passing(transponder, time);
-    expect(race.start).toBe(time);
+    race.start.subscribe(res=>expect(res).toBe(time));
   });
 
   it('should update results on first passing', () => {
@@ -53,7 +57,7 @@ describe('Race', () => {
       best: "",
       last: ""
     }];
-    expect(race.results).toEqual(results);  
+    race.results.subscribe(res=>expect(res).toEqual(results));  
   });
 
   it('should update results on second passing', () => {
@@ -69,12 +73,12 @@ describe('Race', () => {
       best: "12.535",
       last: "12.535"
     }];
-    expect(race.results).toEqual(results); 
+    race.results.subscribe(res=>expect(res).toEqual(results)); 
   })
 
   it('should update results on different transponder passing', () => {
 
-    while (race.mode == Racemode.Race) { race.togglemode(); }
+    //while (race.mode. == Racemode.Race) { race.togglemode(); }
 
     race.passing('1', new Date(2018, 10, 15, 11, 34, 0, 0));
     race.passing('2', new Date(2018, 10, 15, 11, 34, 0, 500));
@@ -94,20 +98,20 @@ describe('Race', () => {
       best: "12.535",
       last: "12.535"
     }];
-    expect(race.results).toEqual(results); 
+    race.results.subscribe(res=>expect(res).toEqual(results));
   });
 
   it('should update results on toggle mode', () => {
 
-    while (race.mode == Racemode.Race) { race.togglemode(); }
+    //while (race.mode == Racemode.Race) { race.togglemode(); }
 
     race.passing('1', new Date(2018, 10, 15, 11, 34, 0, 0));
     race.passing('2', new Date(2018, 10, 15, 11, 34, 0, 500));
     race.passing('2', new Date(2018, 10, 15, 11, 34, 12, 635));
     race.passing('1', new Date(2018, 10, 15, 11, 34, 12, 535));
 
-    while (race.mode == Racemode.Qualify) { race.togglemode(); }
-
+    //while (race.mode == Racemode.Qualify) { race.togglemode(); }
+    race.togglemode();
     let results = [{
       transponder: '1',
       laps: 1,
@@ -121,7 +125,7 @@ describe('Race', () => {
       best: "12.135",
       last: "12.135"
     }];
-    expect(race.results).toEqual(results); 
+    race.results.subscribe(res=>expect(res).toEqual(results));
   });
 
 
